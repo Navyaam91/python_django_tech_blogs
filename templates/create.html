@@ -1,0 +1,34 @@
+{% extends 'blank_layout.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">
+        {% if post %}Edit Blog Post{% else %}Create New Blog Post{% endif %}
+    </h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="title" id="title" class="form-control"
+                   value="{{ post.title|default:'' }}" placeholder="Enter post title" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="content" class="form-label">Content</label>
+            <textarea name="content" id="content" rows="6" class="form-control"
+                      placeholder="Write your blog content here..." required>{{ post.content|default:'' }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="author" class="form-label">Author</label>
+            <input type="text" name="author" id="author" class="form-control"
+                   value="{{ post.author|default:'' }}" placeholder="Enter author name">
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            {% if post %}Update{% else %}Publish{% endif %}
+        </button>
+        <a href="{% url 'list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock content %}
