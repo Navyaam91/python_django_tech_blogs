@@ -13,28 +13,33 @@ def list(request):
 def create(request):
     if request.method == 'POST':
         title = request.POST.get('title')
-        author = request.POST.get('author')
         content = request.POST.get('content')
+        author = request.POST.get('author')
+        image = request.FILES.get('image')
 
-        # Save to database
-        BlogPost.objects.create(title=title, author=author, content=content)
+        BlogPost.objects.create(title=title, content=content, author=author, image=image)
+        return redirect('list')
 
-        # Redirect to homepage or post list after saving
-        return redirect('list')   # make sure 'home' is defined in urls.py
-    return render(request, 'create.html')
+    return render(request, 'create.html', {'post': None})
+
 def delete(request,pk):
     instance = BlogPost.objects.get(pk=pk)
     instance.delete()
     return redirect('list')
-def edit(request,pk):
-    post=BlogPost.objects.get(pk=pk)
+def edit(request, pk):
+    post =  BlogPost.objects.get(pk=pk)
+
     if request.method == 'POST':
         post.title = request.POST.get('title')
         post.content = request.POST.get('content')
         post.author = request.POST.get('author')
+        if request.FILES.get('image'):
+            post.image = request.FILES.get('image')
         post.save()
         return redirect('list')
-    return render(request, 'create.html',{'post':post})
+
+    return render(request, 'create.html', {'post': post})
+
 
 # def edit(request):
 #     return render(request,'edit.html')

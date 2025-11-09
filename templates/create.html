@@ -1,28 +1,33 @@
-{% extends 'blank_layout.html' %}
-{% block content %}
-<div class="container mt-4">
-    <h1 class="mb-4 text-center">
-        {% if post %}Edit Blog Post{% else %}Create New Blog Post{% endif %}
-    </h1>
-
-    <form method="POST">
+ {%extends 'blank_layout.html'%}
+    {% block content %}
+    <div class="container mt-4">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
+
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" name="title" id="title" class="form-control"
-                   value="{{ post.title|default:'' }}" placeholder="Enter post title" required>
+                value="{{ post.title|default:'' }}" placeholder="Enter post title" required>
         </div>
 
         <div class="mb-3">
             <label for="content" class="form-label">Content</label>
             <textarea name="content" id="content" rows="6" class="form-control"
-                      placeholder="Write your blog content here..." required>{{ post.content|default:'' }}</textarea>
+                    placeholder="Write your blog content here..." required>{{ post.content|default:'' }}</textarea>
         </div>
 
         <div class="mb-3">
             <label for="author" class="form-label">Author</label>
             <input type="text" name="author" id="author" class="form-control"
-                   value="{{ post.author|default:'' }}" placeholder="Enter author name">
+                value="{{ post.author|default:'' }}" placeholder="Enter author name">
+        </div>
+
+        <div class="mb-3">
+            <label for="image" class="form-label">Upload Image</label>
+            <input type="file" name="image" id="image" class="form-control">
+            {% if post.image %}
+                <img src="{{ post.image.url }}" alt="Post Image" class="img-thumbnail mt-2" width="200">
+            {% endif %}
         </div>
 
         <button type="submit" class="btn btn-success">
@@ -30,5 +35,7 @@
         </button>
         <a href="{% url 'list' %}" class="btn btn-secondary">Cancel</a>
     </form>
-</div>
-{% endblock content %}
+    </div>
+    {% endblock content %}
+
+
