@@ -1,0 +1,111 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* Center card vertically */
+    .auth-section {
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f4f1ee;
+    }
+
+    /* Signup card styling */
+    .signup-card {
+        background: #ffffff;
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        padding: 40px 35px;
+        width: 100%;
+        max-width: 450px;
+    }
+
+    .signup-card h2 {
+        color: #0f4c5c;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .form-label {
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        box-shadow: none;
+    }
+
+    .form-control:focus {
+        border-color: #0f4c5c;
+        box-shadow: 0 0 0 0.15rem rgba(15, 76, 92, 0.2);
+    }
+
+    .btn-signup {
+        background: linear-gradient(135deg, #0f4c5c, #16697a);
+        color: #fff;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-signup:hover {
+        background: linear-gradient(135deg, #16697a, #0f4c5c);
+        transform: translateY(-1px);
+    }
+
+    .text-muted a {
+        color: #0f4c5c;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    .text-muted a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<section class="auth-section">
+    <div class="signup-card">
+        <h2>Create Your Account</h2>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" name="username" id="username" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password1" class="form-label">Password</label>
+                <input type="password" name="password1" id="password1" class="form-control" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="password2" class="form-label">Confirm Password</label>
+                <input type="password" name="password2" id="password2" class="form-control" required>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-signup">Sign Up</button>
+            </div>
+        </form>
+        <p>
+            {% if user %}
+                New user created
+            {% endif %}
+        </p>
+        
+
+        <p class="text-center text-muted mt-3 mb-0">
+            Already have an account? <a href="{% url 'login' %}">Login here</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

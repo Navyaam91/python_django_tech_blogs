@@ -1,0 +1,161 @@
+{% extends 'blank_layout.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  .auth-section {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f1ee;
+    padding: 40px 20px;
+  }
+
+  .login-card {
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(15,76,92,0.08);
+    padding: 36px 32px;
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid rgba(15,76,92,0.04);
+  }
+
+  .login-card h2 {
+    color: #0f4c5c;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .login-card p.lead {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 22px;
+    font-size: 0.95rem;
+  }
+
+  .form-label {
+    color: #6c757d;
+    font-weight: 500;
+  }
+
+  .form-control {
+    border-radius: 10px;
+    border: 1px solid #d7d3d0;
+    box-shadow: none;
+    padding: 10px 12px;
+  }
+
+  .form-control:focus {
+    border-color: #0f4c5c;
+    box-shadow: 0 0 0 0.15rem rgba(15,76,92,0.12);
+  }
+
+  .btn-login {
+    background: linear-gradient(135deg, #0f4c5c, #16697a);
+    color: #fff;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .btn-login:hover {
+    transform: translateY(-1px);
+  }
+
+  .helper-row {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top: 10px;
+  }
+
+  .helper-row .remember {
+    font-size: 0.95rem;
+    color: #6c757d;
+  }
+
+  .helper-row a {
+    color: #0f4c5c;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .helper-row a:hover { text-decoration: underline; }
+
+  .divider {
+    text-align:center;
+    margin: 18px 0;
+    color: #b5b2b0;
+    font-size: 0.9rem;
+  }
+
+  .alt-action {
+    text-align:center;
+    margin-top: 8px;
+    color: #6c757d;
+  }
+
+  .alt-action a {
+    color: #0f4c5c;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .msg {
+    margin-bottom: 12px;
+  }
+</style>
+
+<section class="auth-section">
+  <div class="login-card" role="main" aria-labelledby="login-title">
+    <h2 id="login-title">Welcome</h2>
+    <p class="lead">Log in to continue to Tech Journal</p>
+
+    <!-- display Django messages (if any) -->
+    {% if messages %}
+      <div class="msg">
+        {% for m in messages %}
+          <div class="alert alert-{{ m.tags }} py-2">{{ m }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="POST" novalidate>
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="username" class="form-label">Username or Email</label>
+        <input id="username" name="username" type="text" class="form-control" required autofocus>
+      </div>
+
+      <div class="mb-2">
+        <label for="password" class="form-label">Password</label>
+        <input id="password" name="password" type="password" class="form-control" required>
+      </div>
+
+      <div class="helper-row">
+       
+        <div>
+          <a href="#">Forgot password?</a>
+        </div>
+      </div>
+
+      <div class="d-grid mt-4">
+        <button type="submit" class="btn btn-login">Log In</button>
+      </div>
+
+      <div class="divider">or</div>
+
+      <div class="alt-action">
+        Don't have an account? <a href="{% url 'signup' %}">Create one</a>
+      </div>
+      {% if error %}
+          <p style="color:red;">{{ error }}</p>
+      {% endif %}
+    </form>
+  </div>
+</section>
+{% endblock %}
