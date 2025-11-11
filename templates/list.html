@@ -1,21 +1,115 @@
- {%extends 'blank_layout.html'%}
-    {% block content %}
-    <div class="container">
-        <div class="d-flex justify-content-end mb-3">
-      <a href="/create" class="btn btn-success">
-           Create Post
-      </a>
-  </div>
-      {% for post in posts %}
-      <div class="post">
-         <h2>{{ post.title }}</h2>
-         <p class="meta">By {{ post.author }} | {{ post.created_at|date:"M d, Y" }}</p>
-         <p>{{ post.content|truncatewords:30 }}</p>
-         <p><a href="{% url 'edit' post.id%}" >Edit</a> | <a href="{% url 'delete' post.id%}">Delete</a></p>
+{% extends 'blank_layout.html' %}
+{% load static %}
+{% block content %}
 
-      </div>
-      {% empty %}
-      <p>No posts yet. Be the first to write one!</p>
-      {% endfor %}
-   </div>
-    {% endblock content %}
+<style>
+    body {
+        background-color: #f4f1ee;
+    }
+
+    .blog-container {
+        max-width: 1100px;
+        margin: 50px auto;
+    }
+
+    .page-header {
+        background: linear-gradient(135deg, #0f4c5c, #16697a);
+        color: #fff;
+        border-radius: 10px;
+        padding: 40px 30px;
+        text-align: center;
+        margin-bottom: 40px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .page-header h1 {
+        font-weight: 700;
+        font-size: 2rem;
+    }
+
+    .post-card {
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        padding: 25px;
+        margin-bottom: 25px;
+        transition: all 0.3s ease;
+    }
+
+    .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    .post-card h2 {
+        color: #0f4c5c;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .post-card .meta {
+        font-size: 0.9rem;
+        color: #7f8c8d;
+        margin-bottom: 15px;
+    }
+
+    .post-card p {
+        color: #2c3e50;
+    }
+
+    .post-actions a {
+        color: #16697a;
+        text-decoration: none;
+        font-weight: 500;
+        margin-right: 12px;
+    }
+
+    .post-actions a:hover {
+        text-decoration: underline;
+        color: #0f4c5c;
+    }
+
+    .btn-create {
+        background: linear-gradient(135deg, #0f4c5c, #16697a);
+        border: none;
+        color: #fff;
+        font-weight: 500;
+        border-radius: 10px;
+        padding: 10px 18px;
+        transition: 0.3s;
+    }
+
+    .btn-create:hover {
+        background: linear-gradient(135deg, #16697a, #0f4c5c);
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="container blog-container">
+    <div class="page-header">
+        <h1>Latest Blog Posts</h1>
+        <p>Explore the latest articles and insights from our Tech Journal community.</p>
+    </div>
+    {% if user.is_authenticated %}
+    <div class="d-flex justify-content-end mb-4">
+        <a href="/create" class="btn btn-create">
+            + Create New Post
+        </a>
+    </div>
+    {% endif %}
+    {% for post in posts %}
+    <div class="post-card">
+        <h2>{{ post.title }}</h2>
+        <p class="meta">By {{ post.author }} | {{ post.created_at|date:"F d, Y" }}</p>
+        <p>{{ post.content|truncatewords:30 }}</p>
+        <div class="post-actions mt-2">
+            <a href="{% url 'edit' post.id %}">✏️ Edit</a>
+            <a href="{% url 'delete' post.id %}">🗑️ Delete</a>
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-center text-muted mt-5">No posts yet. Be the first to write one!</p>
+    {% endfor %}
+</div>
+
+{% endblock content %}
