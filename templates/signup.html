@@ -74,33 +74,42 @@
 <section class="auth-section">
     <div class="signup-card">
         <h2>Create Your Account</h2>
-        <form method="POST">
+        <form method="POST" id="signupForm" novalidate>
             {% csrf_token %}
-            
             <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" name="username" id="username" class="form-control" required>
+                <label for="username" class="form-label">username</label>
+                <input id="username" name="username" type="text" class="form-control"  autofocus>
+                 <span class="error-message text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" name="email" id="email" class="form-control" >
+                 <span class="error-message text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label for="password1" class="form-label">Password</label>
-                <input type="password" name="password1" id="password1" class="form-control" required>
+                <input type="password" name="password1" id="password1" class="form-control" >
+                 <span class="error-message text-danger"></span>
             </div>
 
             <div class="mb-4">
                 <label for="password2" class="form-label">Confirm Password</label>
-                <input type="password" name="password2" id="password2" class="form-control" required>
+                <input type="password" name="password2" id="password2" class="form-control" >
+                 <span class="error-message text-danger"></span>
             </div>
 
             <div class="d-grid">
                 <button type="submit" class="btn btn-signup">Sign Up</button>
             </div>
         </form>
-        <p>
+
             {% if user %}
+            <div class="alert alert-success mt-3" role="alert"></div>
                 New user created
+            </div>
             {% endif %}
-        </p>
+
         
 
         <p class="text-center text-muted mt-3 mb-0">
@@ -108,4 +117,74 @@
         </p>
     </div>
 </section>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // stop submission for validation first
+
+    const username = document.getElementById('username');
+    const email = document.getElementById('email');
+    const password1 = document.getElementById('password1');
+    const password2 = document.getElementById('password2');
+
+    // clear previous messages
+    document.querySelectorAll('.error-message').forEach(msg => msg.textContent = '');
+    [username, email, password1, password2].forEach(f => f.classList.remove('is-invalid'));
+
+    let valid = true;
+
+    // username check
+    if (username.value.trim() === '') {
+        username.classList.add('is-invalid');
+        username.nextElementSibling.textContent = "Username cannot be empty.";
+        valid = false;
+    }
+
+    // email check
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email.value.trim() === '') {
+        email.classList.add('is-invalid');
+        email.nextElementSibling.textContent = "Email cannot be empty.";
+        valid = false;
+    } else if (!emailPattern.test(email.value.trim())) {
+        email.classList.add('is-invalid');
+        email.nextElementSibling.textContent = "Please enter a valid email address.";
+        valid = false;
+    }
+
+    // password not empty
+    if (password1.value.trim() === '') {
+        password1.classList.add('is-invalid');
+        password1.nextElementSibling.textContent = "Password cannot be empty.";
+        valid = false;
+    }
+
+    // confirm password
+    if (password2.value.trim() === '') {
+        password2.classList.add('is-invalid');
+        password2.nextElementSibling.textContent = "Please confirm your password.";
+        valid = false;
+    } else if (password1.value !== password2.value) {
+        password2.classList.add('is-invalid');
+        password2.nextElementSibling.textContent = "Passwords do not match.";
+        valid = false;
+    }
+
+    // submit if all valid
+    if (valid) {
+        this.submit();
+    }
+    });
+});
+</script>
+
+<style>
+.is-invalid {
+  border-color: #dc3545;
+  box-shadow: 0 0 4px rgba(220, 53, 69, 0.25);
+}
+.text-danger {
+  font-size: 0.9em;
+}
+</style>
 {% endblock %}

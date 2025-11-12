@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import BlogPost
-import pprint
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -9,7 +9,7 @@ import pprint
 def list(request):
     posts = BlogPost.objects.all().order_by('-created_at')
     return render(request, 'list.html', {'posts': posts})
-
+@login_required(login_url="login")
 def create(request):
     if request.method == 'POST':
         title = request.POST.get('title')

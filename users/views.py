@@ -18,9 +18,10 @@ def signup(request):
     error_message=None
     if request.POST:
         username=request.POST['username']
+        email=request.POST['email']
         password=request.POST['password1']
         try:
-            user=User.objects.create_user(username=username,password=password)
+            user=User.objects.create_user(username=username,email=email,password=password)
         except Exception as e:
             error_message=str(e)
     return render(request, 'signup.html',{"user":user,"error_message":error_message})

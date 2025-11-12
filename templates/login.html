@@ -125,9 +125,10 @@
 
     <form method="POST" novalidate>
       {% csrf_token %}
+      
 
       <div class="mb-3">
-        <label for="username" class="form-label">Username or Email</label>
+        <label for="username" class="form-label">Email</label>
         <input id="username" name="username" type="text" class="form-control" required autofocus>
       </div>
 
