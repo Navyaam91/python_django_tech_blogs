@@ -16,11 +16,7 @@
                     placeholder="Write your blog content here..." required>{{ post.content|default:'' }}</textarea>
         </div>
 
-        <div class="mb-3">
-            <label for="author" class="form-label">Author</label>
-            <input type="text" name="author" id="author" class="form-control"
-                value="{{ post.author|default:'' }}" placeholder="Enter author name">
-        </div>
+       
 
         <div class="mb-3">
             <label for="image" class="form-label">Upload Image</label>

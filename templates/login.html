@@ -128,7 +128,7 @@
       
 
       <div class="mb-3">
-        <label for="username" class="form-label">Email</label>
+        <label for="username" class="form-label">Username</label>
         <input id="username" name="username" type="text" class="form-control" required autofocus>
       </div>
 
@@ -140,7 +140,7 @@
       <div class="helper-row">
        
         <div>
-          <a href="#">Forgot password?</a>
+          <a href="{% url 'password_reset' %}">Forgot password?</a>
         </div>
       </div>
 

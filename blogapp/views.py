@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import BlogPost
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -14,7 +15,8 @@ def create(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         content = request.POST.get('content')
-        author = request.POST.get('author')
+        # author = request.POST.get('author')
+        author=request.user
         image = request.FILES.get('image')
 
         BlogPost.objects.create(title=title, content=content, author=author, image=image)
@@ -39,6 +41,10 @@ def edit(request, pk):
         return redirect('list')
 
     return render(request, 'create.html', {'post': post})
+def view(request,pk):
+    post =  BlogPost.objects.get(pk=pk)
+    return render(request, 'view.html', {'post': post})
+
 
 
 # def edit(request):
