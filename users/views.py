@@ -29,3 +29,5 @@ def signup(request):
 def logout(request):
     authlogout(request)
     return redirect('list')
+def forgot_password(request):
+    return render(request,'forgot_password.html')

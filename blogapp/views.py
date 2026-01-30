@@ -34,7 +34,8 @@ def edit(request, pk):
     if request.method == 'POST':
         post.title = request.POST.get('title')
         post.content = request.POST.get('content')
-        post.author = request.POST.get('author')
+        # post.author = request.POST.get('author')
+        post.author=request.user
         if request.FILES.get('image'):
             post.image = request.FILES.get('image')
         post.save()
