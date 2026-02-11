@@ -13,7 +13,5 @@ python manage.py showmigrations
 python manage.py migrate --noinput
 
 echo "=== Creating Superuser ==="
-if [ "$CREATE_SUPERUSER" = "True" ]; then
-  python manage.py createsuperuser --noinput || echo "Superuser already exists or creation failed."
-fi
+python create_admin.py
 echo "=== Build complete ==="
