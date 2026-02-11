@@ -2,40 +2,14 @@
 # exit on error
 set -o errexit
 
+echo "=== Installing dependencies ==="
 pip install -r requirements.txt
 
+echo "=== Collecting static files ==="
 python manage.py collectstatic --no-input
-python manage.py migrate
-```
 
-### 3. `.gitignore`
-```
-# Python
-*.py[cod]
-*$py.class
-*.so
-__pycache__/
-*.pyc
-.Python
+echo "=== Running database migrations ==="
+python manage.py showmigrations
+python manage.py migrate --noinput
 
-# Django
-*.log
-db.sqlite3
-db.sqlite3-journal
-/media
-/staticfiles
-
-# Environment
-.env
-venv/
-env/
-ENV/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Local database credentials
-local_settings.py
+echo "=== Build complete ==="
